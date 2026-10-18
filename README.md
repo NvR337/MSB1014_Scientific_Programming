@@ -1,7 +1,7 @@
 # Spaceflight effects on the mouse liver transcriptome (NASA OSD-245)
 
 > Scientific Programming (MSB1014) course project, MSc Systems Biology & Bioinformatics, Maastricht University
-> Author: Noah van Rossum (i6446615)
+> Author: Noah van Rossum
 > Date: 18 October 2026
 
 ## Summary
