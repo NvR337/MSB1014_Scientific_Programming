@@ -1,14 +1,38 @@
 # Spaceflight effects on the mouse liver transcriptome (NASA OSD-245)
 
 > Scientific Programming (MSB1014) course project, MSc Systems Biology & Bioinformatics, Maastricht University
+>
 > Author: Noah van Rossum
+>
 > Date: 18 October 2026
 
-## Summary
+### Summary
 
-How does spaceflight change gene expression in the mouse liver, and does that response persist after return to Earth? Using bulk RNA-seq of 59 mouse livers from NASA's Rodent Research-6 mission (OSD-245), I found that the largest source of variation in the data is not biological but technical: a batch of 15 samples with a strong RNA-degradation signature, most likely caused by differences in sample handling. After identifying and correcting for this batch, spaceflight, mission arm and their interaction all had significant effects on liver gene expression (ASCA+, permutation p < 0.001). Spaceflight changed 503 genes in mice dissected on orbit (ISS-T) but only 52 in mice returned alive to Earth (LAR). Only 20 genes responded in both arms, and half of them, mainly genes of lipid and cholesterol synthesis, changed in opposite directions, suggesting that part of the spaceflight response reverses after return to Earth.
+This project aimed to identify spaceflight-perturbed protein modules in mouse liver and to determine whether these persist after return to Earth. The project was part of Scientific Programming (MSB1014). The chosen dataset for this project was a bulk RNA-seq of 59 mouse livers from NASA's Rodent Research-6 mission (OSD-245). It was found that the largest source of variation in the data was not biological but technical; a batch of 15 samples with a strong RNA-degradation signature, most likely caused by differences in sample handling. After identifying and correcting for this batch, spaceflight, mission arm and their interaction all had significant effects on liver gene expression (ASCA+, permutation p < 0.001). Following DGEA, Spaceflight changed 503 genes in mice dissected on orbit (ISS-T) but only 52 in mice returned alive to Earth (LAR). Only 20 genes responded in both experimental setups, with half of them being related to mainly genes of lipid and cholesterol synthesis. These changed in opposite directions, suggesting that part of the spaceflight response reverses after return to Earth; a form of active re-adaptation, as opposed to recovery.
 
-## Research question
+## Background Information
+
+The recent resurgence of interest in space exploration, underlined by NASA’s commitment of
+the moon missions as well as its planned missions to Mars, necessitates an increase in research
+towards astronauts’ health in long-duration space missions. Astronauts that returned from the
+International Space Station (ISS), have previously showcased health issues related to geriatric
+issues, immune dysfunction, and cardiovascular health, in addition to the well-known cancer
+risk from continuous exposure of low doses of radiation [1, 2]. Pathway analyses of multi-omics
+datasets from both human astronauts and rodents (NASA’s GeneLab) revealed significant enrich-
+ment for mitochondrial processes, innate immunity, chronic inflammation, cell cycle, circadian
+rhythm, and olfactory functions [3]. Furthermore, the study showcased the importance of organ
+tissue complexity; specifically the liver. The liver undergoes more differential gene and protein
+expression changes than other organs, consistent with the role of the liver as a dynamic and
+critical hub in sensing changes in blood composition and maintaining homeostasis. Spaceflight
+induced changes in the liver have been linked to a number of key processes, including oxidative
+phosphorylation [4], lipid metabolism [5], and fibrosis linked gene expression fluxes [6].
+As these processes involve many interacting proteins, spaceflight induced changes are likely
+to appear as groups of functionally connected genes whose products interact (modules of
+interacting proteins), rather than as isolated genes.
+
+## Core Research question
+The research question raised in this research
+project can thus be phrased as follows:
 
 **How does spaceflight change gene expression in the mouse liver, and does that response persist after return to Earth?**
 
@@ -16,11 +40,11 @@ How does spaceflight change gene expression in the mouse liver, and does that re
 2. Which genes and pathways respond to spaceflight in mice dissected on orbit (ISS-T) and in mice returned alive to Earth (LAR)?
 3. Is the spaceflight response shared between the two mission arms, or does it reverse after return?
 
-The liver is central to metabolism and is known to respond to spaceflight; understanding whether these changes persist after return matters for the health of astronauts on longer missions.
 
 ## Dataset
 
 - **Source:** NASA Open Science Data Repository, study [OSD-245](https://osdr.nasa.gov/bio/repo/data/studies/OSD-245) (Rodent Research-6, liver of female C57BL/6NTac mice)
+- **Accessed:** 18 Oct 2026
 - **Data used:** RSEM unnormalized gene counts, sample metadata, assay metadata and per-sample QC metrics, as published by NASA GeneLab
 - **Design:** 59 livers; Baseline, Ground Control and Flight groups in two mission arms (10 mice per group, Ground Control LAR 9):
   - **LAR** (Live Animal Return): 29 days in orbit, ~4 days back on Earth, dissected fresh
@@ -47,6 +71,24 @@ raw counts + metadata + QC
                        sensitivity models, robustness without the batch samples
 9. Networks            export to STRING / Cytoscape, KEGG and WikiPathways enrichment
 ```
+
+## Main results
+
+**1. The main structure in the data is a technical batch.** A group of 15 samples separates along PC1, explained by technical variation, not biological (spaceflight effect).
+
+![VST PCA coloured by group and mission arm](results/figures/09_pca_vst_group_location.png)
+
+**2. Correcting for the RIN, Read Depth, and 3′/5′ coverage ratio removes the batch and strengthens the biological signal.**
+
+![PCA Covariate Correction](results/figures/17_pca_covariate_corrections.png)
+
+**3. Spaceflight changes many more genes on orbit (ISS-T) than after return (LAR)**, mostly through down-regulation.
+
+![DEGs per contrast](results/figures/26_deg_counts.png)
+
+**4. The response differs between the experimental setups:** only 20 genes are shared, and lipid-synthesis genes change in opposite directions.
+
+![Fold changes LAR vs ISS-T](results/figures/28_lfc_lar_vs_isst.png)
 
 ### Key design decisions
 
@@ -99,35 +141,38 @@ jupyter lab notebooks/OSD245_Analysis.ipynb     # then: Kernel → Restart & Run
 - A fixed random seed (`SEED = 42`) is used for PCA, k-means and the permutation tests.
 - The Cytoscape network steps (Section 9.2) are manual; the notebook exports the input files and documents every setting.
 
-## Course concepts demonstrated
+### Course concepts demonstrated
 
 - **Reproducibility:** pinned environment, fixed seeds, relative paths, all figures and tables written to `results/`, every decision documented in the notebook
 - **Parallel computing:** the ASCA+ permutation tests run in parallel with `joblib` (one process per effect, 4 × 5,000 permutations), and PyDESeq2 fits the gene-wise models in parallel (`DefaultInference(n_cpus=...)`)
 - **Modular code:** reusable functions for normalization, design matrices, covariate removal, ASCA+ and DESeq2 contrasts
 - **Visualization:** PCA and biplots, clustered heatmaps, QC overlays, ASCA effect plots, volcano plots
 
-## Main results
 
-**1. The main structure in the data is a technical batch.** A group of 15 samples separates along PC1, explained by RNA-degradation metrics (3′/5′ coverage ratio, adjusted R² = 0.82), not by spaceflight.
+## References
 
-![VST PCA coloured by group and mission arm](results/figures/09_pca_vst_group_location.png)
+[1] Strollo F, Gentile S, Strollo G, Mambro A and Vernikos J. Recent Progress in Space
+Physiology and Aging. Frontiers in Physiology 2018; 9:1551. doi: 10.3389/fphys.
+2018.01551
 
-**2. Correcting for the 3′/5′ coverage ratio removes the batch and strengthens the biological signal.**
+[2] Garrett-Bakelman FE et al. The NASA Twins Study: A multidimensional analysis of a
+year-long human spaceflight. Science 2019; 364:eaau8650
 
-![PCA Covariate Correction](results/figures/17_pca_covariate_corrections.png)
+[3] Silveira WA da et al. Comprehensive Multi-omics Analysis Reveals Mitochondrial Stress
+as a Central Biological Hub for Spaceflight Impact. Cell 2020; 183:1185–201
 
-**3. Spaceflight changes many more genes on orbit than after return**, mostly through down-regulation.
+[4] Vinken M. Hepatology in space: Effects of spaceflight and simulated microgravity on the
+liver. Liver International 2022; 42:2599–606. doi: 10.1111/liv.15444
 
-![DEGs per contrast](results/figures/26_deg_counts.png)
+[5] Beheshti A et al. Multi-omics analysis of multiple missions to space reveal a theme of
+lipid dysregulation in mouse liver. Scientific Reports 2019; 9:19195
 
-**4. The response differs between the arms:** only 20 genes are shared, and lipid-synthesis genes change in opposite directions.
-
-![Fold changes LAR vs ISS-T](results/figures/28_lfc_lar_vs_isst.png)
-
+[6] onscher KR et al. Spaceflight Activates Lipotoxic Pathways in Mouse Liver. PLoS ONE
+2016; 11:e0152877
 
 ## Acknowledgements
 
 Data: NASA GeneLab / Open Science Data Repository (OSD-245). Course: MSB1014 Scientific Programming, Maastricht University.
 
 ## AI transparency statement
-Claude (Anthropic) was used during this project. It was used to troubleshoot errors (e.g. file paths and package setup); review, restructure and optimise the Python code, including splitting the ASCA+ analysis into reusable functions, parallelising the permutation tests with `joblib`, and cleaning up the PyDESeq2 workflow;aid in drafting the explanatory markdown text, observations and figure descriptions in the notebook; check and complete the references; and help write this README and set up the environment structure of this REPO. All analyses were run by the author, all numbers, outputs and gene-level claims were checked against the underlying results, and the final text was reviewed and edited by the author, who takes full responsibility for its content.
+Claude (Anthropic) was used during this project. It was used to troubleshoot errors (e.g. file paths and package setup); review, restructure and optimise the Python code, including splitting the ASCA+ analysis into reusable functions, parallelising the permutation tests with `joblib`, and cleaning up the PyDESeq2 workflow; aid in drafting and reviewing the explanatory markdown text, observations and figure descriptions in the notebook; check and complete the references; and help with setting up the structure of this README and the repo environment. All analyses were run by the author, all numbers, outputs and gene-level claims were checked against the underlying results, and the final text was reviewed and edited by the author, who takes full responsibility for its content.
