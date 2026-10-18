@@ -1,0 +1,19 @@
+model,contrast,up,down,total
+final (depth + RIN + 3′/5′ ratio),LAR: FLT vs GC,8,44,52
+final (depth + RIN + 3′/5′ ratio),LAR: GC vs BSL,2,27,29
+final (depth + RIN + 3′/5′ ratio),LAR: FLT vs BSL,30,187,217
+final (depth + RIN + 3′/5′ ratio),ISS-T: FLT vs GC,151,352,503
+final (depth + RIN + 3′/5′ ratio),ISS-T: GC vs BSL,123,162,285
+final (depth + RIN + 3′/5′ ratio),ISS-T: FLT vs BSL,213,425,638
+depth + RIN,LAR: FLT vs GC,12,35,47
+depth + RIN,LAR: GC vs BSL,0,15,15
+depth + RIN,LAR: FLT vs BSL,35,160,195
+depth + RIN,ISS-T: FLT vs GC,142,234,376
+depth + RIN,ISS-T: GC vs BSL,147,180,327
+depth + RIN,ISS-T: FLT vs BSL,190,380,570
+no technical covariates,LAR: FLT vs GC,7,23,30
+no technical covariates,LAR: GC vs BSL,7,28,35
+no technical covariates,LAR: FLT vs BSL,113,164,277
+no technical covariates,ISS-T: FLT vs GC,151,152,303
+no technical covariates,ISS-T: GC vs BSL,272,179,451
+no technical covariates,ISS-T: FLT vs BSL,243,272,515

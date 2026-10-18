@@ -1,0 +1,8 @@
+,main cluster,small cluster
+read_depth,110781104.5,85083522.0
+rrna_contamination,1.375,0.61
+uniquely_mapped_percent,61.575,83.53
+raw_percent_duplicates_f,84.02871426735489,80.59959592979028
+rin,9.3,7.9
+raw_percent_gc_f,50.0,41.0
+gene_detected_gt10_pct,28.813870527751547,27.379078795509393

@@ -1,0 +1,14 @@
+# Conda environment for this project.
+# Create it with:    conda env create -f environment.yml
+# Activate it with:  conda activate osd245
+#
+# Package versions are pinned in requirements.txt (single source of truth);
+# conda only provides Python and pip, then installs everything from that file.
+name: osd245
+channels:
+  - conda-forge
+dependencies:
+  - python=3.13
+  - pip
+  - pip:
+      - -r requirements.txt

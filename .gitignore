@@ -1,0 +1,10 @@
+   # Virtual environment
+   .venv/
+
+   # Python / Jupyter clutter
+   __pycache__/
+   .ipynb_checkpoints/
+
+   # IDE and OS files
+   .idea/
+   .DS_Store
