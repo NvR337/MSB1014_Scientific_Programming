@@ -88,7 +88,7 @@ raw counts + metadata + QC
 
 **4. The response differs between the experimental setups:** only 20 genes are shared, and lipid-synthesis genes change in opposite directions.
 
-![Fold changes LAR vs ISS-T](results/figures/28_lfc_lar_vs_isst.png)
+![Legend](results/figures/network_comparison.png)
 
 ### Key design decisions
 
@@ -172,7 +172,8 @@ lipid dysregulation in mouse liver. Scientific Reports 2019; 9:19195
 
 ## Acknowledgements
 
-Data: NASA GeneLab / Open Science Data Repository (OSD-245). Course: MSB1014 Scientific Programming, Maastricht University.
+Data: NASA GeneLab / Open Science Data Repository (OSD-245). 
+Course: MSB1014 Scientific Programming, Maastricht University.
 
 ## AI transparency statement
 Claude (Anthropic) was used during this project. It was used to troubleshoot errors (e.g. file paths and package setup); review, restructure and optimise the Python code, including splitting the ASCA+ analysis into reusable functions, parallelising the permutation tests with `joblib`, and cleaning up the PyDESeq2 workflow; aid in drafting and reviewing the explanatory markdown text, observations and figure descriptions in the notebook; check and complete the references; and help with setting up the structure of this README and the repo environment. All analyses were run by the author, all numbers, outputs and gene-level claims were checked against the underlying results, and the final text was reviewed and edited by the author, who takes full responsibility for its content.
