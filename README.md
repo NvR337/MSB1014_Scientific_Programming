@@ -7,8 +7,9 @@
 > Date: 18 October 2026
 
 ### Summary
+The full analysis is contained in a single Jupyter notebook (see Analysis pipeline).
 
-This project aimed to identify spaceflight-perturbed protein modules in mouse liver and to determine whether these persist after return to Earth. The project was part of Scientific Programming (MSB1014). The chosen dataset for this project was a bulk RNA-seq of 59 mouse livers from NASA's Rodent Research-6 mission (OSD-245). It was found that the largest source of variation in the data was not biological but technical; a batch of 15 samples with a strong RNA-degradation signature, most likely caused by differences in sample handling. After identifying and correcting for this batch, spaceflight, mission arm and their interaction all had significant effects on liver gene expression (ASCA+, permutation p < 0.001). Following DGEA, Spaceflight changed 503 genes in mice dissected on orbit (ISS-T) but only 52 in mice returned alive to Earth (LAR). Only 20 genes responded in both experimental setups, with half of them being related to mainly genes of lipid and cholesterol synthesis. These changed in opposite directions, suggesting that part of the spaceflight response reverses after return to Earth; a form of active re-adaptation, as opposed to recovery.
+This project aimed to determine how spaceflight changes gene expression in the mouse liver and whether these changes persist after return to Earth. The project was part of Scientific Programming (MSB1014). The chosen dataset for this project was a bulk RNA-seq of 59 mouse livers from NASA's Rodent Research-6 mission (OSD-245). It was found that the largest source of variation in the data was not biological but technical; a batch of 15 samples with a strong RNA-degradation signature, most likely caused by differences in sample handling. After identifying and correcting for this batch, spaceflight, mission arm and their interaction all had significant effects on liver gene expression (ASCA+, permutation p < 0.001). Following DGEA, Spaceflight changed 503 genes in mice dissected on orbit (ISS-T) but only 52 in mice returned alive to Earth (LAR). Only 20 genes responded in both experimental setups, with half of them being related to mainly genes of lipid and cholesterol synthesis. These changed in opposite directions, suggesting that part of the spaceflight response reverses after return to Earth; a form of active re-adaptation, as opposed to recovery.
 
 ## Background Information
 
@@ -53,6 +54,7 @@ project can thus be phrased as follows:
 ![Experimental design of OSD-245](docs/OSD245_overview.svg)
 
 ## Analysis pipeline
+The entire analysis lives in a single Jupyter notebook, [`notebooks/OSD245_Analysis.ipynb`](notebooks/OSD245_Analysis.ipynb), which runs from raw counts to the network input files. The numbered steps below match the sections of the notebook, and every step is explained there in markdown (motivation → code → observation → next step).
 
 ```
 raw counts + metadata + QC
@@ -167,8 +169,10 @@ liver. Liver International 2022; 42:2599–606. doi: 10.1111/liv.15444
 [5] Beheshti A et al. Multi-omics analysis of multiple missions to space reveal a theme of
 lipid dysregulation in mouse liver. Scientific Reports 2019; 9:19195
 
-[6] onscher KR et al. Spaceflight Activates Lipotoxic Pathways in Mouse Liver. PLoS ONE
+[6] Jonscher KR et al. Spaceflight Activates Lipotoxic Pathways in Mouse Liver. PLoS ONE
 2016; 11:e0152877
+
+Method references are listed at the end of the notebook.
 
 ## Acknowledgements
 
